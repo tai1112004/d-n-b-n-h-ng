@@ -10,6 +10,7 @@ C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\model\UserPrincal.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\HandleException\GlobalExceptionHandler.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\request\StatusRequest.java
+C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\configure\WebConfig.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Service\imlp\AdminServiceIMPL.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Repository\OrderDetailsRepo.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Service\AdminService.java
@@ -31,6 +32,7 @@ C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Service\imlp\ProductServiceIMPL.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\request\BrandRequest.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\model\resultOrders.java
+C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Repository\ProductImageRepo.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\API\APIAdmin.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\request\UserRequest.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\model\resultStatus.java

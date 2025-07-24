@@ -4,6 +4,7 @@ shopping\Repository\OrderRepo.class
 shopping\model\resultOrders.class
 shopping\Repository\Entity\Categories.class
 shopping\request\BasketRequest.class
+shopping\Repository\ProductImageRepo.class
 shopping\request\OrdersRequest.class
 shopping\Repository\Entity\Basket.class
 shopping\Repository\Entity\Renew.class
@@ -48,6 +49,7 @@ shopping\Repository\Entity\Product.class
 shopping\configure\CloudinaryConfig.class
 shopping\configure\JWTConfig.class
 shopping\Service\AdminService.class
+shopping\configure\WebConfig.class
 shopping\Service\imlp\AdminServiceIMPL.class
 shopping\Repository\StatusRepo.class
 shopping\request\RoleRequest.class
