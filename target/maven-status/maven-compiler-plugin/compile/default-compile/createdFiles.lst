@@ -59,10 +59,12 @@ shopping\Repository\CategoriesRepo.class
 shopping\Repository\RenewRepo.class
 shopping\request\UserRequest.class
 shopping\Repository\Entity\ProductImage.class
+shopping\configure\DataSourceConfig.class
 shopping\Service\ProductService.class
 shopping\request\RenewRequest.class
 shopping\exception\DuplicateUserException.class
 shopping\model\resultOrderDetails.class
+shopping\configure\DriverTestComponent.class
 shopping\request\OrderDetailsRequest.class
 shopping\request\ProductRequest.class
 shopping\model\resultBrand.class

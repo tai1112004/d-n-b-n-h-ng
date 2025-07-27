@@ -17,6 +17,7 @@ C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Repository\RenewRepo.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Repository\Entity\Basket.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\model\resultOrderDetails.java
+C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\configure\DriverTestComponent.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\request\BasketRequest.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\API\GenneralAPI.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Application.java
@@ -55,6 +56,7 @@ C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\model\resultProduct.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\API\AuthenticationAPI.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Repository\Entity\ProductImage.java
+C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\configure\DataSourceConfig.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Repository\Entity\Categories.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\configure\config.java
 C:\Users\taih1\Desktop\laptrinh\phattrienweb\Baitaplon\backend_shopping\shopping_baitalon\src\main\java\shopping\Service\Authentication.java

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javassist.NotFoundException;
 import shopping.Repository.BasketRepo;
 import shopping.Repository.RoleRepo;
 import shopping.Repository.UserRepo;
