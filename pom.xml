@@ -17,7 +17,10 @@
   </parent>
 
   <properties>
-    <java.version>1.8</java.version>
+    <!-- Đổi từ Java 8 thành Java 17 -->
+    <java.version>17</java.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
 	<build>
 	  <plugins>
