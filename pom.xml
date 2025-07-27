@@ -106,12 +106,13 @@
         <version>3.2.1</version>
     </dependency>
     
-    <!-- MySQL Connector - sử dụng version do Spring Boot quản lý -->
+    <!-- MySQL Connector -->
     <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <scope>runtime</scope>
-    </dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.33</version>
+	    <scope>runtime</scope>
+	</dependency>
     
     <!-- JWT Dependencies -->
     <dependency>

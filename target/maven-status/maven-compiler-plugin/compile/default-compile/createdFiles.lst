@@ -1,6 +1,7 @@
 shopping\Repository\OrderDetailsRepo.class
 shopping\API\UserAPI.class
 shopping\Repository\OrderRepo.class
+shopping\StartupLogger.class
 shopping\model\resultOrders.class
 shopping\Repository\Entity\Categories.class
 shopping\request\BasketRequest.class
