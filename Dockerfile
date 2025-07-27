@@ -18,4 +18,4 @@ EXPOSE 8080
 ENV PORT=8080
 
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=default", "-jar", "app.jar"]
