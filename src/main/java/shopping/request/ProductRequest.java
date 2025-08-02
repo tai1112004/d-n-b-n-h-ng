@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProductRequest {
+	long Id ; 
 	String name ; 
 
 	long quantity ; 
@@ -57,6 +58,12 @@ public class ProductRequest {
 
 	
 	
+	public long getId() {
+		return Id;
+	}
+	public void setId(long id) {
+		Id = id;
+	}
 	public List<MultipartFile> getImages() {
 		return images;
 	}

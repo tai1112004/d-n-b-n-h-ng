@@ -7,8 +7,10 @@ import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +34,7 @@ import shopping.request.ProductRequest;
 import shopping.request.RoleRequest;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class APIAdmin {
 	@Autowired
 	AdminService serviceAdmin ; 
@@ -70,15 +73,45 @@ public class APIAdmin {
 	{
 		return service.addBrand(data) ; 
 	}
+	@PatchMapping("/api/admin/updateBrand")
+	public String updateBrand(@RequestBody BrandRequest brand)
+	{
+		return service.updateBrand(brand) ; 
+	}
+	@DeleteMapping("/api/admin/delBrand/{id}")
+	public String delBrand(@PathVariable("id") long id)
+	{
+		return service.delBrand(id)  ; 
+	}
 	@PostMapping("/api/admin/addCategories") 
 	public resultCategories addCategories(@RequestBody CategoriesRequest data)
 	{
 		
 		return service.addCategories(data) ;  
 	}
+	@PatchMapping("/api/admin/updateCategories")
+	public String updateBrand(@RequestBody CategoriesRequest categories)
+	{
+		return service.updateCategories(categories) ; 
+	}
+	@DeleteMapping("/api/admin/delCategories/{id}")
+	public String delCategories(@PathVariable("id") long id)
+	{
+		return service.delCategories(id)  ; 
+	}
+	@PatchMapping("/api/admin/updateProduct")
+	public String updateProduct(@RequestBody ProductRequest product)
+	{
+		return serviceAdmin.UpdateProduct(product) ; 
+	}
+	@DeleteMapping("/api/admin/delProduct/{id}")
+	public String delProduct(@PathVariable("id") long id)
+	{
+		return serviceAdmin.delProduct(id) ;
+	}
 	// quan ly don hang 
 	@GetMapping("/api/admin/listUser/status/{nameStatus}")
-	public List<ResultListNameOrder> getListOrderUser(@PathVariable String nameStatus)
+	public List<resultOrders> getListOrderUser(@PathVariable String nameStatus)
 	{
 		return serviceAdmin.getListOrder(nameStatus) ;
 	}

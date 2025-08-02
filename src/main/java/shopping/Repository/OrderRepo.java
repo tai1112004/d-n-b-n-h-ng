@@ -12,4 +12,7 @@ import shopping.Repository.Entity.Orders;
 public interface OrderRepo extends JpaRepository<Orders, Long> {
 	@Query("select od from OrderDetails od join od.order o where o.id = :ordersID")
 	List<OrderDetails> getOrderDetailsInOrders(@Param("ordersID") long id) ;
+	
+	@Query("select o from Orders o join o.status s where s.name = :statusName")
+	List<Orders> getListOrder(@Param("statusName") String statusName) ; 
 }

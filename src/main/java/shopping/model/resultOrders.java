@@ -10,7 +10,15 @@ public class resultOrders {
 		private String note ;
 		private resultShipping shipping ;
 		private String status ; 
+		private resultUser user ; 
 		private List<resultOrderDetails> orderDetails ;
+		
+		public resultUser getUser() {
+			return user;
+		}
+		public void setUser(resultUser user) {
+			this.user = user;
+		}
 		public long getId() {
 			return id;
 		}

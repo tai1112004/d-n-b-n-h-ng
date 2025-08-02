@@ -49,7 +49,7 @@ private String chiakhoa = "" ;
 					.setClaims(claims)
 					.setSubject(user.getName())
 					.setIssuedAt(new Date(System.currentTimeMillis()))
-					.setExpiration(new Date(System.currentTimeMillis()+ 60*60*60 ))
+					.setExpiration(new Date(System.currentTimeMillis()+ 60*60*60*60*60 ))
 					.signWith(getKey())
 					.compact() ; 
 				

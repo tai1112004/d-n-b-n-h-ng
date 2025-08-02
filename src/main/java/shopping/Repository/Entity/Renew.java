@@ -1,6 +1,8 @@
 package shopping.Repository.Entity;
 
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,17 +21,35 @@ public class Renew {
 	private long id ; 
 	@Column(name = "content")
 	private String content ;
+	@Column(name="rating")
+	private int rating ; 
+	@Column(name = "date")
+	private LocalDate date ; 
 	@ManyToOne
 	@JoinColumn(name = "product_id") 
 	private Product product ; 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id") 
 	private User user ;  
+	
+	public LocalDate getDate() {
+		return date;
+	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 	public String getContent() {
 		return content;

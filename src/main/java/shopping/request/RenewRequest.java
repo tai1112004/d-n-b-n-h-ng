@@ -4,21 +4,20 @@ package shopping.request;
 public class RenewRequest {
 
 	private String content ;
-	private ProductRequest product ; 
-
-
+	private int rating ; 
+	
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 	private UserRequest user ;  
 	public String getContent() {
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
-	}
-	public ProductRequest getProduct() {
-		return product;
-	}
-	public void setProduct(ProductRequest product) {
-		this.product = product;
 	}
 	public UserRequest getUser() {
 		return user;

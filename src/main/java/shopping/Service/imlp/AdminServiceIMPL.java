@@ -1,24 +1,37 @@
 package shopping.Service.imlp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.utils.ObjectUtils;
+
+import shopping.Repository.BrandRepo;
+import shopping.Repository.CategoriesRepo;
 import shopping.Repository.OrderRepo;
+import shopping.Repository.ProductRepo;
 import shopping.Repository.RoleRepo;
 import shopping.Repository.StatusRepo;
 import shopping.Repository.UserRepo;
+import shopping.Repository.Entity.Brand;
+import shopping.Repository.Entity.Categories;
 import shopping.Repository.Entity.OrderDetails;
 import shopping.Repository.Entity.Orders;
+import shopping.Repository.Entity.Product;
+import shopping.Repository.Entity.ProductImage;
 import shopping.Repository.Entity.Role;
 import shopping.Repository.Entity.Status;
 import shopping.Repository.Entity.User;
 import shopping.Service.AdminService;
+import shopping.Service.CloudinaryService;
 import shopping.model.ResultListNameOrder;
 import shopping.model.resultOrderDetails;
 import shopping.model.resultOrders;
@@ -27,6 +40,7 @@ import shopping.model.resultShipping;
 import shopping.model.resultStatus;
 import shopping.model.resultUser;
 import shopping.model.resultUserDetail;
+import shopping.request.ProductRequest;
 import shopping.request.RoleRequest;
 @Service
 public class AdminServiceIMPL implements AdminService {
@@ -40,6 +54,14 @@ public class AdminServiceIMPL implements AdminService {
 	private StatusRepo statusRepo ; 
 	@Autowired
 	ModelMapper model ; 
+	@Autowired
+	private CategoriesRepo categoriesRepo ; 
+	@Autowired
+	private BrandRepo brandRepo ; 
+	@Autowired
+	private ProductRepo productRepo ; 
+	@Autowired
+	private CloudinaryService cloudinary ; 
 	@Override
 	public List<resultUser> getUser() {
 		List<User> userDataBase = userRepo.findAll() ;
@@ -100,17 +122,20 @@ public class AdminServiceIMPL implements AdminService {
 		return "da xoa" ;
 	}
 	@Override
-	public List<ResultListNameOrder> getListOrder(String nameStatus) {
-		List<User> userDataBase = userRepo.getListNameOrder(nameStatus) ; 
-		List<ResultListNameOrder> listNameOrder = new ArrayList<>() ; 
-		for(User user : userDataBase )
+	public List<resultOrders> getListOrder(String nameStatus) {
+		List<Orders> ordersListDataBase = orderRepo.getListOrder(nameStatus) ; 
+		List<resultOrders> orderListDTO = new ArrayList<>() ;
+		for(Orders orders : ordersListDataBase )
 		{
-			ResultListNameOrder nameOrder = new ResultListNameOrder() ; 
-			nameOrder.setNameOrder(user.getName());
-			nameOrder.setId(user.getId());
-			listNameOrder.add(nameOrder)  ; 
+			resultOrders orderDTO = model.map(orders, resultOrders.class) ; 
+			resultUser userDTO = model.map(orders.getUser(), resultUser.class)  ; 
+			orderDTO.setUser(userDTO); 
+			orderDTO.setStatus(orders.getStatus().getName());
+			resultShipping shipDTO = model.map(orders.getShipping(), resultShipping.class) ; 
+			orderDTO.setShipping(shipDTO);
+			orderListDTO.add(orderDTO) ; 
 		}
-		return listNameOrder;
+		return orderListDTO;
 	}
 	@Override
 	public List<resultOrders> getListOrder(String nameStatus, long id) {
@@ -158,6 +183,39 @@ public class AdminServiceIMPL implements AdminService {
 	public int totalStatiscalMonth(String nameStatus, int month) {
 		int total = userRepo.getTotalStatiscalMonth(nameStatus, month) ; 
 		return total;
+	}
+	@Override
+	public String UpdateProduct(ProductRequest product) {
+		Product productDataBase = productRepo.findById(product.getId()).orElse(null)  ; 
+		productDataBase = model.map(product,Product.class) ; 
+		Categories categoriesDataBase = categoriesRepo.findByName(product.getCategories() ); 
+		if(categoriesDataBase == null)
+		{
+			categoriesDataBase = new Categories()  ; 
+			categoriesDataBase.setName(product.getCategories());
+			categoriesRepo.save(categoriesDataBase)  ; 
+		}
+		productDataBase.setCategories(categoriesDataBase);
+		Brand brandDataBase = brandRepo.findByName(product.getBrand()) ; 
+		if(brandDataBase == null)
+		{
+			brandDataBase = new Brand()  ; 
+			brandDataBase.setName(product.getBrand());
+			brandRepo.save(brandDataBase)  ; 
+		}
+		productDataBase.setBrand(brandDataBase); 
+		productRepo.save(productDataBase) ;
+		return  "done"; 
+	}
+	@Override
+	public String delProduct(long id) {
+		List<ProductImage> imageDataBase = productRepo.getListImage(id)  ; 
+		for(ProductImage image : imageDataBase)
+		{
+			cloudinary.deleteImageByUrl(image.getImageUrl()) ; 
+		}
+		productRepo.deleteById(id);
+		return "da xoa";
 	}
 
 }

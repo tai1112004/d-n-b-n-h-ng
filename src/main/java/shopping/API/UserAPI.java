@@ -3,6 +3,7 @@ package shopping.API;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,17 +14,23 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import shopping.Service.ProductService;
+import shopping.Service.UserService;
 import shopping.model.resultBasket;
 import shopping.model.resultOrders;
 import shopping.model.resultProduct;
+import shopping.model.resultUser;
 import shopping.request.BasketItemRequest;
 import shopping.request.OrderDetailsRequest;
 import shopping.request.OrdersRequest;
 import shopping.request.RenewRequest;
+import shopping.request.UserRequest;
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserAPI {
 	@Autowired
 	private ProductService service ;  
+	@Autowired
+	private UserService userService; 
  // them san pham vao gio hang
 	@PostMapping("/api/user/addBasket/{id}") 
 	public String addBasket(@PathVariable long id, @RequestHeader("Authorization") String authen ) 
@@ -80,4 +87,31 @@ public class UserAPI {
 		String token = autho.replace("Bearer ", "")  ; 
 		return service.addRenew(renewRequest, token, id) ;
 	}
+	// xem thong tin 
+	@GetMapping("/api/user/getProfile") 
+	public resultUser getProfile(@RequestHeader("Authorization") String autho)
+	{
+		String token = autho.replace("Bearer ", "") ; 
+		return userService.getProfile(token) ; 
+	}
+	// xem trang thai don hang
+	@GetMapping("/api/user/order/status/{status}")
+	public List<resultOrders> getStatusOrderUser(@PathVariable("status") String status , @RequestHeader("Authorization") String autho)
+	{
+		String token = autho.replace("Bearer ", "") ; 
+		return userService.getStatusOrderUser(status, token) ;
+	}
+	//xem chi tiet don hang
+	@GetMapping("/api/user/getDetailOrder/{id}") 
+	public resultOrders getDetailOrder(@PathVariable("id") long id)
+	{
+		return userService.getDetailOrder(id) ; 
+	}
+	// thay doi thon tin 
+	@PatchMapping("/api/user/updateInfor")
+	public String updateUser(@RequestHeader("Authorization") String autho , @RequestBody UserRequest userRequest)
+	{
+		String token = autho.replace("Bearer ", "") ; 
+		return userService.updateInfor(token, userRequest) ;
+	} 
 }

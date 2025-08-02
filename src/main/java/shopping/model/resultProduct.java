@@ -51,11 +51,19 @@ public class resultProduct {
 		boolean suport_stylus ;
 
 
-		private resultBrand brand; 
+		private String brand; 
 
 
-		private resultCategories categories ;
+		private String categories ;
+		private List<resultRenew> renewList ; 
+		private List<resultImages> images ; 
 		
+		public List<resultImages> getImages() {
+			return images;
+		}
+		public void setImages(List<resultImages> images) {
+			this.images = images;
+		}
 		public long getId() {
 			return id;
 		}
@@ -194,18 +202,25 @@ public class resultProduct {
 		public void setSuport_stylus(boolean suport_stylus) {
 			this.suport_stylus = suport_stylus;
 		}
-		public resultBrand getBrand() {
+		public String getBrand() {
 			return brand;
 		}
-		public void setBrand(resultBrand brand) {
+		public void setBrand(String brand) {
 			this.brand = brand;
 		}
-		public resultCategories getCategories() {
+		public String getCategories() {
 			return categories;
 		}
-		public void setCategories(resultCategories categories) {
+		public void setCategories(String categories) {
 			this.categories = categories;
+		}
+		public List<resultRenew> getRenewList() {
+			return renewList;
+		}
+		public void setRenewList(List<resultRenew> renewList) {
+			this.renewList = renewList;
 		} 
+		
 		
 		
 	}

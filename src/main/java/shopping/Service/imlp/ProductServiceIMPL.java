@@ -49,9 +49,11 @@ import shopping.model.resultBasket;
 import shopping.model.resultBasketItem;
 import shopping.model.resultBrand;
 import shopping.model.resultCategories;
+import shopping.model.resultImages;
 import shopping.model.resultOrderDetails;
 import shopping.model.resultOrders;
 import shopping.model.resultProduct;
+import shopping.model.resultRenew;
 import shopping.model.resultShipping;
 import shopping.model.resultStatus;
 import shopping.request.BasketItemRequest;
@@ -99,6 +101,16 @@ public class ProductServiceIMPL implements ProductService {
 		for(Product item : productDataBase) 
 		{
 			resultProduct product = model.map(item, resultProduct.class) ; 
+			product.setBrand(item.getBrand().getName());
+			product.setCategories(item.getCategories().getName());
+			List<ProductImage> imageDataBase = productRepo.getListImage(item.getId()) ;
+			List<resultImages> imageListDTO = new ArrayList<>() ;
+			for(ProductImage image: imageDataBase)
+			{
+				resultImages imageDTO = model.map(image, resultImages.class) ; 
+				imageListDTO.add(imageDTO)  ; 
+			}
+			product.setImages(imageListDTO);
 			arr_product.add(product) ; 
 		}
 		return arr_product ; 
@@ -163,34 +175,75 @@ public class ProductServiceIMPL implements ProductService {
 		}
 		@Override
 		public resultBrand addBrand(BrandRequest brand) {
-			Brand brandDataBase = model.map(brand, Brand.class) ; 
-			brandRepo.save(brandDataBase) ; 
-			resultBrand brandDTO = model.map(brand,resultBrand.class) ;
-			brandDTO.setId(brandDataBase.getId());
-			return brandDTO ;  
+			Brand brandDataBase = brandRepo.findByName(brand.getName())  ; 
+			if(brandDataBase==null)
+			{
+				brandDataBase = model.map(brand, Brand.class) ; 
+				brandRepo.save(brandDataBase) ; 
+				resultBrand brandDTO = model.map(brand,resultBrand.class) ;
+				brandDTO.setId(brandDataBase.getId());
+				return brandDTO ;
+			}
+			else return null ; 
+			  
 		}
 		@Override
 		public resultCategories addCategories(CategoriesRequest categories) {
-			Categories categoriesDataBase = model.map(categories, Categories.class) ; 
-			categoriesRepo.save(categoriesDataBase) ; 
-			resultCategories CategoriesDTO = model.map(categories, resultCategories.class) ; 
-			CategoriesDTO.setId(categoriesDataBase.getId());
-			return CategoriesDTO;
+			Categories categoriesDataBase = categoriesRepo.findByName(categories.getName())  ; 
+			if(categoriesDataBase==null)
+			{
+				categoriesDataBase = model.map(categories, Categories.class) ; 
+				categoriesRepo.save(categoriesDataBase) ; 
+				resultCategories CategoriesDTO = model.map(categories, resultCategories.class) ; 
+				CategoriesDTO.setId(categoriesDataBase.getId());
+				return CategoriesDTO;
+			}
+			else return null ; 
+			 
 		}
 		@Override
 		public resultProduct getDetailProduct(long id) {
-			Optional<Product> productDataBase = productRepo.findById(Long.valueOf(id)) ; 	
+			Product productDataBase = productRepo.findById(id).orElse(null) ; 	
 			resultProduct productDTO = model.map(productDataBase, resultProduct.class) ;
+			productDTO.setBrand(productDataBase.getBrand().getName())  ; 
+			productDTO.setCategories(productDataBase.getCategories().getName()) ; 
+			List<Renew> listRenew = productRepo.getListRenew(id) ;
+			List<resultRenew> resultRenewList = new ArrayList<>()  ; 
+			for (Renew renew : listRenew)
+			{
+				resultRenew renewDTO = model.map(renew, resultRenew.class) ; 
+				renewDTO.setUser(renew.getUser().getName());
+				resultRenewList.add(renewDTO) ; 
+			}
+			productDTO.setRenewList(resultRenewList);
+			List<ProductImage> imageDataBase = productRepo.getListImage(productDataBase.getId()) ;
+			List<resultImages> imageListDTO = new ArrayList<>() ;
+			for(ProductImage image: imageDataBase)
+			{
+				resultImages imageDTO = model.map(image, resultImages.class) ; 
+				imageListDTO.add(imageDTO)  ; 
+			}
+			productDTO.setImages(imageListDTO);
 			return productDTO ; 
 		}
 		@Override
-		public List<resultProduct> getProductsByCategories(CategoriesRequest categories) {
-			Categories categoriesDataBase = categoriesRepo.findByName(categories.getName()) ; 
+		public List<resultProduct> getProductsByCategories(String categories) {
+			Categories categoriesDataBase = categoriesRepo.findByName(categories) ; 
 			List<Product> productDataBase = categoriesDataBase.getProduct() ;
 			List<resultProduct> productDTO = new ArrayList<>() ; 
 			for(Product item : productDataBase) 
 			{
-				resultProduct product = model.map(item, resultProduct.class) ; 
+				resultProduct product = model.map(item, resultProduct.class) ;
+				product.setBrand(item.getBrand().getName());
+				product.setCategories(item.getCategories().getName());
+				List<ProductImage> imageDataBase = productRepo.getListImage(item.getId()) ;
+				List<resultImages> imageListDTO = new ArrayList<>() ;
+				for(ProductImage image: imageDataBase)
+				{
+					resultImages imageDTO = model.map(image, resultImages.class) ; 
+					imageListDTO.add(imageDTO)  ; 
+				}
+				product.setImages(imageListDTO);
 				productDTO.add(product) ; 
 			}
 			return productDTO;
@@ -203,7 +256,18 @@ public class ProductServiceIMPL implements ProductService {
 			for(Product item : productDataBase) 
 			{
 				resultProduct product = model.map(item, resultProduct.class) ; 
+				product.setBrand(item.getBrand().getName());
+				product.setCategories(item.getCategories().getName());
+				List<ProductImage> imageDataBase = productRepo.getListImage(item.getId()) ;
+				List<resultImages> imageListDTO = new ArrayList<>() ;
+				for(ProductImage image: imageDataBase)
+				{
+					resultImages imageDTO = model.map(image, resultImages.class) ; 
+					imageListDTO.add(imageDTO)  ; 
+				}
+				product.setImages(imageListDTO);
 				productDTO.add(product) ; 
+				
 			}
 			return productDTO;
 		}
@@ -252,6 +316,16 @@ public class ProductServiceIMPL implements ProductService {
 			{
 				Product product = basketItem.getProduct() ; 
 				resultProduct productDTO = model.map(product, resultProduct.class)  ; 
+				productDTO.setBrand(product.getBrand().getName());
+				productDTO.setCategories(product.getCategories().getName());
+				List<ProductImage> imageDataBase = productRepo.getListImage(product.getId()) ;
+				List<resultImages> imageListDTO = new ArrayList<>() ;
+				for(ProductImage image: imageDataBase)
+				{
+					resultImages imageDTO = model.map(image, resultImages.class) ; 
+					imageListDTO.add(imageDTO)  ; 
+				}
+				productDTO.setImages(imageListDTO);
 				resultBasketItem basketItemDTO  =  model.map(basketItem, resultBasketItem.class)  ; 
 				basketItemDTO.setProduct(productDTO);
 				basketItemDTO_list.add(basketItemDTO) ; 
@@ -413,11 +487,60 @@ public class ProductServiceIMPL implements ProductService {
  			}
 			Renew renewDataBase = new Renew()  ; 
 			renewDataBase.setContent(renewRequest.getContent());
+			renewDataBase.setRating(renewRequest.getRating());
+			renewDataBase.setDate(LocalDate.now());
 			renewDataBase.setUser(userDataBase);
 			renewDataBase.setProduct(productDataBase);
 			renewRepo.save(renewDataBase)  ; 
 			return "da them binh luan cua ban vao roi " ; 
 		}
+		@Override
+		public String updateBrand(BrandRequest brand) {
+			Brand brandDataBase = brandRepo.findById(brand.getId()).orElse(null) ;
+			brandDataBase.setName(brand.getName());
+			brandRepo.save(brandDataBase)  ; 
+			
+			return "done";
+		}
+		@Override
+		public String updateCategories(CategoriesRequest categories) {
+			Categories CategoriesDataBase = categoriesRepo.findById(categories.getId()).orElse(null) ;
+			CategoriesDataBase.setName(categories.getName());
+			categoriesRepo.save(CategoriesDataBase)  ; 
+			return "done";
+		}
+		@Override
+		public String delBrand(long id) {
+			brandRepo.deleteById(id);
+			return "done";
+		}
+		@Override
+		public String delCategories(long id) {
+			categoriesRepo.deleteById(id);
+			return "done";
+		}
+		@Override
+		public List<resultProduct> getProductDiscount() {
+			List<Product> productListDataBase = productRepo.getProductDiscount() ; 
+			List<resultProduct> ProductListDTO = new ArrayList<>()  ; 
+			for(Product productDataBase : productListDataBase)
+			{
+				resultProduct productDTO = model.map(productDataBase, resultProduct.class)  ;
+				productDTO.setBrand(productDataBase.getBrand().getName());
+				productDTO.setCategories(productDataBase.getCategories().getName());
+				List<ProductImage> imageDataBase = productRepo.getListImage(productDataBase.getId()) ;
+				List<resultImages> imageListDTO = new ArrayList<>() ;
+				for(ProductImage image: imageDataBase)
+				{
+					resultImages imageDTO = model.map(image, resultImages.class) ; 
+					imageListDTO.add(imageDTO)  ; 
+				}
+				productDTO.setImages(imageListDTO);
+				ProductListDTO.add(productDTO) ; 
+			}
+			return ProductListDTO ;
+		}
+		
 	}
 	
 

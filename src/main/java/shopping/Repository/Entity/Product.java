@@ -69,10 +69,10 @@ public class Product {
 	boolean suport_stylus ;
 	@OneToMany(mappedBy="product",cascade = CascadeType.ALL)
 	private List<BasketItem> basketItem ;
-	@ManyToOne(cascade= CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name ="brand_id")
 	private Brand brand; 
-	@ManyToOne(cascade=CascadeType.ALL) 
+	@ManyToOne 
 	@JoinColumn(name="categories_id")
 	private Categories categories ;
 	@OneToMany(mappedBy = "product" , cascade =CascadeType.ALL)
@@ -81,6 +81,13 @@ public class Product {
 	private List<Renew> renew ;
 	@OneToMany(mappedBy = "product" ,cascade = CascadeType.ALL) 
 	private List<ProductImage> imageList  ; 
+	
+	public List<ProductImage> getImageList() {
+		return imageList;
+	}
+	public void setImageList(List<ProductImage> imageList) {
+		this.imageList = imageList;
+	}
 	public long getId() {
 		return id;
 	}

@@ -3,6 +3,7 @@ package shopping.API;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import shopping.request.CategoriesRequest;
 import shopping.request.ProductRequest;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class GenneralAPI {
 	@Autowired
 	private  ProductService service  ; 
@@ -45,8 +47,8 @@ public class GenneralAPI {
 	{
 		return service.getAllCategories() ; 
 	}
-	@GetMapping("/api/getProducts/Categories") 
-	public List<resultProduct> getProductByCategories(@RequestBody CategoriesRequest data  )
+	@GetMapping("/api/getProducts/Categories/{categories}") 
+	public List<resultProduct> getProductByCategories(@PathVariable("categories") String data  )
 	{
 		return service.getProductsByCategories(data) ; 
 	}
@@ -55,6 +57,10 @@ public class GenneralAPI {
 	{
 		return service.getProductsByBrand(data)  ; 
 	}
-	
+	@GetMapping("/api/getDiscount")
+	public List<resultProduct> getProductDiscount()
+	{
+		return service.getProductDiscount() ; 
+	}
 	
 }

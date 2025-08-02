@@ -5,7 +5,7 @@ import java.util.List;
 import shopping.model.resultProduct;
 
 public class CategoriesRequest {
-
+	long id ; 
 	
 
 	private String name ; 
@@ -14,6 +14,12 @@ public class CategoriesRequest {
 
 	private List<ProductRequest> product ;
 	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
