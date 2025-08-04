@@ -97,6 +97,7 @@ public class ProductServiceIMPL implements ProductService {
 		@Override
 		public List<resultProduct> getAllProduct() {
 		List<Product> productDataBase = productRepo.findAll() ; 
+		if(productDataBase.size()==0) return null ; 
 		List<resultProduct> arr_product = new ArrayList<>() ;
 		for(Product item : productDataBase) 
 		{
