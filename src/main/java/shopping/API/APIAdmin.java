@@ -34,7 +34,7 @@ import shopping.request.ProductRequest;
 import shopping.request.RoleRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class APIAdmin {
 	@Autowired
 	AdminService serviceAdmin ; 
