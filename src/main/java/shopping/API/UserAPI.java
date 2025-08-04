@@ -25,7 +25,7 @@ import shopping.request.OrdersRequest;
 import shopping.request.RenewRequest;
 import shopping.request.UserRequest;
 @RestController
-@CrossOrigin(origins = "*")
+
 public class UserAPI {
 	@Autowired
 	private ProductService service ;  

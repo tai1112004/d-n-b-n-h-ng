@@ -1,5 +1,7 @@
 package shopping.configure;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,12 +87,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-        config.setAllowCredentials(true);
-
+    	CorsConfiguration config = new CorsConfiguration();
+    	config.setAllowedOrigins(Arrays.asList("https://baitaplon-git-main-hoang-tais-projects.vercel.app"));
+    	config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    	config.setAllowedHeaders(Arrays.asList("*"));
+    	config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
