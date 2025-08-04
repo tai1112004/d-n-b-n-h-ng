@@ -6,12 +6,13 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.function.Function;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -23,75 +24,82 @@ import shopping.Repository.Entity.User;
 
 @Service
 public class JWTService {
-private String chiakhoa = "" ;
-	
-	public JWTService() throws NoSuchAlgorithmException {
-		KeyGenerator keygen = KeyGenerator.getInstance("HMACSHA256") ; 
-		SecretKey skey = keygen.generateKey() ; 
-		chiakhoa = Base64.getEncoder().encodeToString(skey.getEncoded()) ;
-	}
-	public String getToken(User user )
-	{
-		Map<String,String> claims = new HashMap<>() ;
-//		for(vaitro role : username.getDs_vaitro())
-//		{
-//			System.out.println("------------------------------------------------------------------");
-//			System.out.println(role.getName());
-//			System.out.println("------------------------------------------------------------------");
-//		}
-//		System.out.println("ditconme lai la taoooooooo: " + username.getDs_vaitro().size());
-//		for(vaitro item:username.getDs_vaitro())
-//		{
-//			claims.put("scope",BuilRole(username)) ;
-//		}
-		claims.put("roles", user.getRole().getName()) ; 
-		return    Jwts.builder()
-					.setClaims(claims)
-					.setSubject(user.getName())
-					.setIssuedAt(new Date(System.currentTimeMillis()))
-					.setExpiration(new Date(System.currentTimeMillis()+ 60*60*60*60*60 ))
-					.signWith(getKey())
-					.compact() ; 
-				
-				
-				
-				
-				
-				
-	}
-
-	private Key getKey() {
-		byte[] keyByte = Decoders.BASE64.decode(chiakhoa) ; 
-		return Keys.hmacShaKeyFor(keyByte);
-	}
-	public String extractUserName(String token) {
-        // extract the username from jwt token
+    
+    @Value("${JWT_SECRET:}")
+    private String jwtSecret;
+    
+    private String chiakhoa = "";
+    
+    @PostConstruct
+    public void init() throws NoSuchAlgorithmException {
+        if (jwtSecret != null && !jwtSecret.isEmpty()) {
+          
+            chiakhoa = jwtSecret;
+            System.out.println("Using JWT_SECRET from environment variable");
+        } else {
+        
+            KeyGenerator keygen = KeyGenerator.getInstance("HmacSHA256");
+            SecretKey skey = keygen.generateKey();
+            chiakhoa = Base64.getEncoder().encodeToString(skey.getEncoded());
+            System.out.println("Generated new JWT secret key for local development");
+        }
+    }
+    
+    public String getToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", user.getRole().getName());
+        
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(user.getName())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24 hours
+                .signWith(getKey())
+                .compact();
+    }
+    
+    private Key getKey() {
+        byte[] keyByte = Decoders.BASE64.decode(chiakhoa);
+        return Keys.hmacShaKeyFor(keyByte);
+    }
+    
+    public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
+    
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
     }
-
+    
     public Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-        		.setSigningKey(getKey())
-        		.build().parseClaimsJws(token).getBody() ; 
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            System.err.println("JWT parsing error: " + e.getMessage());
+            throw e;
+        }
     }
-
+    
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        try {
+            final String userName = extractUserName(token);
+            return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        } catch (Exception e) {
+            System.err.println("JWT validation error: " + e.getMessage());
+            return false;
+        }
     }
-
+    
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
-
+    
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
- 
-
 }
