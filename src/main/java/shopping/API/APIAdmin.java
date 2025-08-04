@@ -35,7 +35,10 @@ import shopping.request.RoleRequest;
 
 @RestController
 @CrossOrigin(origins = "*")
+<<<<<<< HEAD
 
+=======
+>>>>>>> 63a1ddc0a1e1ad9b8d258f684dea411da932fb30
 public class APIAdmin {
 	@Autowired
 	AdminService serviceAdmin ; 
