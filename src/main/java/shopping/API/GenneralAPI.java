@@ -19,7 +19,7 @@ import shopping.request.CategoriesRequest;
 import shopping.request.ProductRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class GenneralAPI {
 	@Autowired
 	private  ProductService service  ; 
