@@ -19,7 +19,6 @@ import shopping.request.CategoriesRequest;
 import shopping.request.ProductRequest;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class GenneralAPI {
 	@Autowired
 	private  ProductService service  ; 
