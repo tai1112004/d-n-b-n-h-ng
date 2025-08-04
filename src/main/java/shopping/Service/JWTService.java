@@ -1,16 +1,12 @@
 package shopping.Service;
 
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,24 +21,26 @@ import shopping.Repository.Entity.User;
 @Service
 public class JWTService {
     
-    @Value("${JWT_SECRET:}")
+    @Value("${JWT_SECRET}")
     private String jwtSecret;
     
     private String chiakhoa = "";
     
     @PostConstruct
-    public void init() throws NoSuchAlgorithmException {
-        if (jwtSecret != null && !jwtSecret.isEmpty()) {
-          
-            chiakhoa = jwtSecret;
-            System.out.println("Using JWT_SECRET from environment variable");
-        } else {
+    public void init() {
+        System.out.println("=== JWT SERVICE INIT ===");
+        System.out.println("Environment: " + (jwtSecret.contains("Railway") ? "RAILWAY" : "LOCAL"));
         
-            KeyGenerator keygen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey skey = keygen.generateKey();
-            chiakhoa = Base64.getEncoder().encodeToString(skey.getEncoded());
-            System.out.println("Generated new JWT secret key for local development");
+        if (jwtSecret != null && !jwtSecret.isEmpty()) {
+            chiakhoa = jwtSecret;
+            System.out.println("JWT_SECRET loaded successfully");
+            System.out.println("Key length: " + jwtSecret.length() + " characters");
+            System.out.println("Key preview: " + jwtSecret.substring(0, 20) + "...");
+        } else {
+            System.err.println("JWT_SECRET not found in environment!");
+            throw new RuntimeException("JWT_SECRET is required!");
         }
+        System.out.println("========================");
     }
     
     public String getToken(User user) {
@@ -81,14 +79,16 @@ public class JWTService {
                     .getBody();
         } catch (Exception e) {
             System.err.println("JWT parsing error: " + e.getMessage());
-            throw e;
+            throw new RuntimeException("Invalid JWT token: " + e.getMessage());
         }
     }
     
     public boolean validateToken(String token, UserDetails userDetails) {
         try {
             final String userName = extractUserName(token);
-            return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+            boolean isValid = (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+            System.out.println("JWT validation for user '" + userName + "': " + (isValid ? "VALID" : "INVALID"));
+            return isValid;
         } catch (Exception e) {
             System.err.println("JWT validation error: " + e.getMessage());
             return false;
@@ -96,7 +96,12 @@ public class JWTService {
     }
     
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        Date expiration = extractExpiration(token);
+        boolean expired = expiration.before(new Date());
+        if (expired) {
+            System.out.println("JWT token expired at: " + expiration);
+        }
+        return expired;
     }
     
     private Date extractExpiration(String token) {
